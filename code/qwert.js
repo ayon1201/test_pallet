@@ -18,7 +18,7 @@ let QnA=[
         answer_selected:-1
     },
     {
-        id:"2",
+        id:"3",
         question:"Question 3?",
         answers:[
             {id:1, text:"Answer 1", correct:false},
@@ -36,8 +36,12 @@ window.onload=()=>{
     let nextButton=document.getElementById("btnNextQue");
     let backButton=document.getElementById("btnPrevQue");
     let QuestionPalette=document.getElementById("test-questions");
-    let saveBtn=document.getElementById("saveAndNext")
-    let paletteHtml=""
+    let saveBtn=document.getElementById("saveAndNext");
+    let clearBtn=document.getElementById("clear");
+    let mark1Btn=document.getElementById("saveAndMark");
+    let mark2Btn=document.getElementById("markForRev");
+    
+    let paletteHtml="";
     let selectedAnswer=-1;
 
     for(i=1;i<=90;i++){
@@ -74,32 +78,59 @@ window.onload=()=>{
         else
         nextButton.style.display='inline';
     }
-    
-    nextQuestion=()=>{
-        q_no++;
-        displayQuestion();
-    }
-    
-    prevQuestion=()=>{
-        q_no--;
-        displayQuestion();
-    }
-
     save=()=>{
         QnA[q_no].answer_selected=selectedAnswer;
     }
 
+    btnNextQue=()=>{
+        
+        q_no++;
+        displayQuestion();
+        
+    }
+    
+    btnPrevQue=()=>{
+        
+        q_no--;
+        displayQuestion();
+        
+    }
+
+   
+
     saveAndNext=()=>{
         save()
         if(QnA[q_no].answer_selected!=-1)
-        document.getElementById(`question-no${q_no+1}`).style.backgroundColor="green";
-        nextQuestion()
+        document.getElementById(`question-no${q_no+1}`).style.backgroundColor="#5cb85c";
+        btnNextQue()
     }
+    saveAndMark=()=>{
+        save()
+        if(QnA[q_no].answer_selected!=-1)
+        document.getElementById(`question-no${q_no+1}`).style.backgroundColor="#ec971f";
+        btnNextQue()
+    }
+    markForRev=()=>{
+        //save()
+        if(QnA[q_no].answer_selected==-1)
+        document.getElementById(`question-no${q_no+1}`).style.backgroundColor="#337ab7";
+        btnNextQue()
+    }
+    clear=()=>{
+        //save()
+        if(QnA[q_no].answer_selected!=-1)
+        document.getElementById(`question-no${q_no+1}`).reset();
+        //btnNextQue()
+    }
+    
+
 
     displayQuestion();
-    nextButton.addEventListener('click',nextQuestion)
-    backButton.addEventListener('click',prevQuestion)
+    nextButton.addEventListener('click',btnNextQue)
+    backButton.addEventListener('click',btnPrevQue)
     saveBtn.addEventListener('click',saveAndNext)
+    mark1Btn.addEventListener('click',saveAndMark)
+    mark2Btn.addEventListener('click',markForRev)
+    clearBtn.addEventListener('click',clear)
+
 }
-
-
